@@ -42,11 +42,15 @@ void MainWindow::createTable() {
             qtable->setItem(i, j, newItem);
         }
     }
-    int widthforColumn = ui->gridLayoutWidget->size().width() / 4;
+    qtable->resizeColumnsToContents();
+    int wTable = qtable->size().width();
+    int wGrid = ui->gridLayoutWidget->size().width();
+    int dGT = wGrid - wTable;
+
+    int widthforColumn = dGT / 4;
     for(int i = 0; i < 4; i++) {
-        qtable->setColumnWidth(i, widthforColumn);
+        qtable->setColumnWidth(i, qtable->columnWidth(i) + widthforColumn);
     }
-//    qtable->resizeColumnToContents(1);
 //    qtable->resizeColumnToContents(2);
 //    qtable->resizeColumnToContents(3);
 //    qtable->resizeColumnToContents(4);
@@ -308,14 +312,16 @@ void MainWindow::setMode(short mode) {
  * search for the first empty index
  */
 short MainWindow::searchLastIndex() {
-    if(str_pwd[49][1] == "empty") {
-        for(int i = 49; i > 0; i--) {
-            if(str_pwd[i][1] != "empty") return i +1;
+    if(str_pwd[49][1] == "") {
+        for(int i = 49; i >= 0; i--) {
+            string str = str_pwd[i][1];
+            if(str != "") return i +1;
         }
     } else {
         // test next one
         for(int i = 50; i < 100; i++) {
-            if(str_pwd[i][1] == "empty") return i;
+            string str = str_pwd[i][1];
+            if(str == "") return i;
         }
     }
     return 0;

@@ -26,8 +26,8 @@ private slots:
     void on_pushButton_New_clicked();
     void on_pushButton_save_clicked();
     void on_pushButton_cancel_clicked();
-    void enableEditar(QTableWidgetItem*);
-    void enableEditar();
+    void enableEdit(QTableWidgetItem*);
+    void enableEdit();
     void showMsg();
     void search();
     string** search(string str, int* countResult);

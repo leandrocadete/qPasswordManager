@@ -57,8 +57,8 @@ void MainWindow::createTable() {
     qtable->setSelectionMode(QAbstractItemView::SingleSelection);
     qtable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->gridLayoutWidget->update();
-    connect(qtable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(enableEditar(QTableWidgetItem*)));
-    connect(qtable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEditar()));
+    connect(qtable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(enableEdit(QTableWidgetItem*)));
+    connect(qtable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEdit()));
     //connect(ui->pushButton_Search, SIGNAL(clicked()), this, SLOT(search()));
 }
 void MainWindow::recreateTable() {
@@ -78,12 +78,10 @@ void MainWindow::recreateTable() {
     qtable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->gridLayoutWidget->update();
 }
-void MainWindow::enableEditar(QTableWidgetItem* item) {
-//    showMsg();
-//    printf("%s", item->text().toStdString().c_str());
-    enableEditar();
+void MainWindow::enableEdit(QTableWidgetItem* item) {
+    enableEdit();
 }
-void MainWindow::enableEditar() {
+void MainWindow::enableEdit() {
     ui->pushButton_Editar->setEnabled(true);
     ui->pushButton_Editar->setStyleSheet("background-color: rgb(206, 92, 0)");
     ui->pushButton_cancel->setEnabled(false);
@@ -96,12 +94,6 @@ void MainWindow::on_pushButton_Update_clicked() {
     auto description = ui->editDescription->text();
     auto password = ui->editPassword->text();
     QString key = ui->editKey->text();
-
-
-//    if(key.toStdString() != str_key) {
-//        QMessageBox msgbox(this, tr("Caution"), tr(""));
-//    }
-
 
     Pwd *pwd = new Pwd();
     pwd->id = id.toInt(nullptr, 10);
@@ -185,10 +177,7 @@ void MainWindow::showMsg() {
     QMessageBox msg(QString("Title"), QString("Body message"),
                     QMessageBox::Warning, QMessageBox::Cancel, QMessageBox::Ok, QMessageBox::No,
                     this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
-
     msg.show();
-
-
 }
 string** MainWindow::search(string str, int* countResult) {
     string** strs = new string*[100];
@@ -222,7 +211,6 @@ void MainWindow::setMode(short mode) {
     //QString btnOrangeEnabled = "background-color: orange"; // enabled orange
     QString btnBlueEnabled = "background-color: blue"; // enabled blue
     QString btnLightBlueEnabled = "background-color: rgb(154, 209, 255)"; // light blue
-
 
     QWidget *widget[] = {
         ui->pushButton_New,

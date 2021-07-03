@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     createTable();
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExitTriggered()));
+    connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(deletePressed()));
 }
 MainWindow::~MainWindow() {
     delete ui;
@@ -84,6 +85,8 @@ void MainWindow::enableEdit(QTableWidgetItem* item) {
 void MainWindow::enableEdit() {
     ui->pushButton_Editar->setEnabled(true);
     ui->pushButton_Editar->setStyleSheet("background-color: rgb(206, 92, 0)");
+    ui->pushButton_Delete->setEnabled(true);
+    ui->pushButton_Delete->setStyleSheet(btnRedEnabled);
     ui->pushButton_cancel->setEnabled(false);
     ui->pushButton_cancel->setStyleSheet("");
     ui->pushButton_save->setEnabled(false);
@@ -203,15 +206,6 @@ void MainWindow::on_pushButton_cancel_clicked() {
 }
 /// edit - search - new
 void MainWindow::setMode(short mode) {
-    QString lineEditEnabled = "color: rgb(238, 238, 236); background-color: rgb(46, 52, 54)"; // Enaled
-    QString disabled = "color: rgb(238, 238, 236); background-color: rgb(85, 87, 83)"; // Disabled
-    QString btnGreenEnabled = "background-color: green"; // enabled green
-    QString btnDisabled = ""; // Disabled green
-    QString btnYellowEnabled = "background-color: yellow"; // enabled yellow
-    //QString btnOrangeEnabled = "background-color: orange"; // enabled orange
-    QString btnBlueEnabled = "background-color: blue"; // enabled blue
-    QString btnLightBlueEnabled = "background-color: rgb(154, 209, 255)"; // light blue
-
     QWidget *widget[] = {
         ui->pushButton_New,
         ui->pushButton_save,
@@ -219,7 +213,7 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_Search,
         ui->pushButton_Update,
         ui->pushButton_cancel,
-
+        ui->pushButton_Delete,
         ui->lineEdit_search,
         ui->spinBox,
         ui->editKey,
@@ -240,7 +234,7 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_New->setEnabled(true);
         ui->pushButton_New->setStyleSheet(btnGreenEnabled);
         ui->pushButton_Editar->setEnabled(false);
-        ui->pushButton_Editar->setStyleSheet(btnDisabled);
+
         ui->spinBox->clear();
         ui->editDescription->clear();
         ui->editPassword->clear();
@@ -254,6 +248,8 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_Search->setStyleSheet(btnDisabled);
         ui->pushButton_New->setEnabled(false);
         ui->pushButton_New->setStyleSheet(disabled);
+        ui->pushButton_Delete->setEnabled(false);
+        ui->pushButton_Delete->setStyleSheet(btnDisabled);
 
         ui->pushButton_cancel->setEnabled(false);
         ui->pushButton_cancel->setStyleSheet(disabled);
@@ -271,9 +267,11 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_cancel->setEnabled(true);
         ui->pushButton_cancel->setStyleSheet(btnYellowEnabled);
         ui->pushButton_Update->setEnabled(true);
-        ui->pushButton_Update->setStyleSheet(btnYellowEnabled);
+        ui->pushButton_Update->setStyleSheet(btnYellowEnabled);      
         break;
     case INSERT_NEW: // insert mode
+        ui->pushButton_Delete->setEnabled(false);
+        ui->pushButton_Delete->setStyleSheet(btnDisabled);
         ui->pushButton_New->setEnabled(false);
         ui->pushButton_New->setStyleSheet(btnDisabled);
         ui->pushButton_Editar->setEnabled(false);
@@ -318,7 +316,6 @@ short MainWindow::searchLastIndex() {
 void MainWindow::on_actionAbout_triggered() {
    QMessageBox::about(this, tr("About Pwd Manager"), QString("Pwd Manager is a software designed to store passwords"
                                                              "\nDeveloped by Leandro Cadete da Silva"));
-
 }
 void MainWindow::onActionExitTriggered() {
     QMessageBox msg(QMessageBox::Warning, "Caution", "Are you sure, that you want to close!",
@@ -344,4 +341,74 @@ void MainWindow::enableToInsertNew() {
     ui->editPassword->clear();
     ui->editKey->clear();
     setMode(INSERT_NEW);
+}
+
+void MainWindow::deletePressed(){
+    QMessageBox msg(QMessageBox::Warning, "Caution", "Are you sure, that you want to delete the selected item!",
+                   QMessageBox::Yes | QMessageBox::No, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
+    msg.exec();
+    msg.show();
+    int r = msg.result();
+    if(QMessageBox::Yes == r) {
+
+        auto itens = qtable->selectedItems();
+        QString idSelected = itens[0]->text();
+        int size = itens.size();
+        if(size > 0) {
+            Pwd *pwd = new Pwd();
+            pwd->id = idSelected.toInt(nullptr, 10);
+            strcpy(pwd->description, "");
+            strcpy(pwd->pwd, "");
+            Manager *manager = new Manager();
+            manager->writePwd(*pwd, "pwd.db", str_key);
+            for (int i = 0, length = qtable->rowCount(); i < length; i++) {
+                if(qtable->item(i, 0)->text() == idSelected) {
+                    break;
+                }
+            }
+            recreateTable();
+            setMode(SEARCH);
+        }
+    }
+
+
+
+
+
+
+//    cout << "Will delete" << endl;
+//    QMessageBox msg(QMessageBox::Warning, "Caution!", "Are you sure, that you want to delete the selected item?",
+//                   QMessageBox::Yes | QMessageBox::No, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
+//    msg.exec();
+//    msg.show();
+//    int r = msg.result();
+//    cout << "r is " << r << endl;
+//    if(QMessageBox::Yes == r) {
+//        // perform delection
+
+//        auto itens = qtable->selectedItems();
+//        int size = itens.size();
+
+//        printf("The size value is %d", size);
+//        Pwd *pwd = new Pwd();
+////        pwd->id = id.toInt(nullptr, 10);
+////        strcpy(pwd->description, description.toStdString().c_str());
+////        strcpy(pwd->pwd, password.toStdString().c_str());
+////        Manager *manager = new Manager();
+////        manager->writePwd(*pwd, "pwd.db", key.toStdString());
+////        for (int i = 0, length = qtable->rowCount(); i < length; i++) {
+////            if(qtable->item(i, 0)->text() == id) {
+////                break;
+////            }
+////        }
+//        recreateTable();
+//        setMode(SEARCH);
+//        // -----------------------------
+
+//        ui->pushButton_Delete->setEnabled(false);
+//        ui->pushButton_Delete->setStyleSheet(btnDisabled);
+   // }
+
+
+
 }

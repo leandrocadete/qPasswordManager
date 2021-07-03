@@ -14,7 +14,6 @@ class MainWindow;
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
-    string str_key; // Default Key to decript the passwords
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();    
 private slots:
@@ -35,10 +34,22 @@ private slots:
     void onActionExitTriggered();
     void on_action_New_triggered();
 
+    void deletePressed();
+
 private:
+    string str_key; // Default Key to decript the passwords
     QTableWidget *qtable;
     Ui::MainWindow *ui;
     string** str_pwd; // pwds
+
+    const QString lineEditEnabled = "color: rgb(238, 238, 236); background-color: rgb(46, 52, 54)"; // Enaled
+    const QString disabled = "color: rgb(238, 238, 236); background-color: rgb(85, 87, 83)"; // Disabled
+    const QString btnGreenEnabled = "background-color: green"; // enabled green
+    const QString btnDisabled = ""; // Disabled green
+    const QString btnYellowEnabled = "background-color: yellow"; // enabled yellow
+    const QString btnRedEnabled = "background-color: red";
+    const QString btnBlueEnabled = "background-color: blue"; // enabled blue
+    const QString btnLightBlueEnabled = "background-color: rgb(154, 209, 255)"; // light blue
 
     static const short SEARCH = 0;
     static const short INSERT_NEW = 1;

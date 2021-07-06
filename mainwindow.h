@@ -25,6 +25,8 @@ private slots:
     void on_pushButton_New_clicked();
     void on_pushButton_save_clicked();
     void on_pushButton_cancel_clicked();
+    void on_pushButton_Delete_clicked();
+
     void enableEdit(QTableWidgetItem*);
     void enableEdit();
     void showMsg();
@@ -34,7 +36,6 @@ private slots:
     void onActionExitTriggered();
     void on_action_New_triggered();
 
-    void deletePressed();
 
 private:
     string str_key; // Default Key to decript the passwords

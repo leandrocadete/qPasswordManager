@@ -12,16 +12,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         str_key = args[1].toStdString();
     bool ok = str_key.size() > 0;
     if(!ok)
-        str_key = QInputDialog::getText(this, tr("Key"), tr("Default key to decript passwords (eg. mykey@#@#, #$%keysecret)"
-                                                            "\nIf one incorrect key is set you wont see the correct password decription"
-                                                            "\nPlease do not forget this key!"), QLineEdit::Password, "", &ok).toStdString();
+        str_key = QInputDialog::getText(this, tr("Key"),
+                                        tr("Default key to decript passwords (eg. mykey@#@#, #$%keysecret)"
+                                            "\nIf one incorrect key is set you wont see the correct password decription"
+                                            "\nPlease do not forget this key!"), QLineEdit::Password, "", &ok).toStdString();
     if(!ok || str_key.size() == 0){
         cout << str_key << endl;
         exit(-1);
     }
     createTable();
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExitTriggered()));
-    connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(deletePressed()));
+    connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(on_pushButton_Delete_clicked()));
 }
 MainWindow::~MainWindow() {
     delete ui;
@@ -339,11 +340,11 @@ void MainWindow::enableToInsertNew() {
     ui->spinBox->setValue(lastIndex);
     ui->editDescription->clear();
     ui->editPassword->clear();
-    ui->editKey->clear();
+    ui->editKey->setText(str_key.c_str());
     setMode(INSERT_NEW);
 }
 
-void MainWindow::deletePressed(){
+void MainWindow::on_pushButton_Delete_clicked(){
     QMessageBox msg(QMessageBox::Warning, "Caution", "Are you sure, that you want to delete the selected item!",
                    QMessageBox::Yes | QMessageBox::No, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     msg.exec();
@@ -370,45 +371,4 @@ void MainWindow::deletePressed(){
             setMode(SEARCH);
         }
     }
-
-
-
-
-
-
-//    cout << "Will delete" << endl;
-//    QMessageBox msg(QMessageBox::Warning, "Caution!", "Are you sure, that you want to delete the selected item?",
-//                   QMessageBox::Yes | QMessageBox::No, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
-//    msg.exec();
-//    msg.show();
-//    int r = msg.result();
-//    cout << "r is " << r << endl;
-//    if(QMessageBox::Yes == r) {
-//        // perform delection
-
-//        auto itens = qtable->selectedItems();
-//        int size = itens.size();
-
-//        printf("The size value is %d", size);
-//        Pwd *pwd = new Pwd();
-////        pwd->id = id.toInt(nullptr, 10);
-////        strcpy(pwd->description, description.toStdString().c_str());
-////        strcpy(pwd->pwd, password.toStdString().c_str());
-////        Manager *manager = new Manager();
-////        manager->writePwd(*pwd, "pwd.db", key.toStdString());
-////        for (int i = 0, length = qtable->rowCount(); i < length; i++) {
-////            if(qtable->item(i, 0)->text() == id) {
-////                break;
-////            }
-////        }
-//        recreateTable();
-//        setMode(SEARCH);
-//        // -----------------------------
-
-//        ui->pushButton_Delete->setEnabled(false);
-//        ui->pushButton_Delete->setStyleSheet(btnDisabled);
-   // }
-
-
-
 }

@@ -235,6 +235,8 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_New->setEnabled(true);
         ui->pushButton_New->setStyleSheet(btnGreenEnabled);
         ui->pushButton_Editar->setEnabled(false);
+        ui->action_New->setEnabled(true);
+        ui->action_New->setDisabled(false);
 
         ui->spinBox->clear();
         ui->editDescription->clear();
@@ -251,11 +253,12 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_New->setStyleSheet(disabled);
         ui->pushButton_Delete->setEnabled(false);
         ui->pushButton_Delete->setStyleSheet(btnDisabled);
-
         ui->pushButton_cancel->setEnabled(false);
         ui->pushButton_cancel->setStyleSheet(disabled);
         ui->pushButton_save->setEnabled(false);
         ui->pushButton_save->setStyleSheet(disabled);
+        ui->action_New->setEnabled(false);
+        ui->action_New->setDisabled(true);
         // enable some controls
         ui->spinBox->setEnabled(true);
         ui->spinBox->setStyleSheet(lineEditEnabled);
@@ -277,6 +280,8 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_New->setStyleSheet(btnDisabled);
         ui->pushButton_Editar->setEnabled(false);
         ui->pushButton_Editar->setStyleSheet(btnDisabled);
+        ui->action_New->setEnabled(false);
+        ui->action_New->setDisabled(true);
         // enable some controls
         ui->spinBox->setEnabled(true);
         ui->spinBox->setStyleSheet(lineEditEnabled);

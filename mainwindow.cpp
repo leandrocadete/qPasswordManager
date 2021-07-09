@@ -45,23 +45,23 @@ void MainWindow::createTable() {
         }
     }
     qtable->resizeColumnsToContents();
-    int wTable = qtable->size().width();
-    int wGrid = ui->gridLayoutWidget->size().width();
-    int dGT = wGrid - wTable;
+    int countColumn = qtable->columnCount();
+    int table_with = 0;
+    for(int i = 0; i < countColumn; i++) {
+        table_with += qtable->columnWidth(i);
+    }
+    int wGrid = table_with;
+    int dGT = ui->horizontalLayoutWidget->width() - wGrid;
 
     int widthforColumn = dGT / 4;
     for(int i = 0; i < 4; i++) {
         qtable->setColumnWidth(i, qtable->columnWidth(i) + widthforColumn);
     }
-//    qtable->resizeColumnToContents(2);
-//    qtable->resizeColumnToContents(3);
-//    qtable->resizeColumnToContents(4);
     qtable->setSelectionMode(QAbstractItemView::SingleSelection);
     qtable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->gridLayoutWidget->update();
     connect(qtable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(enableEdit(QTableWidgetItem*)));
     connect(qtable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEdit()));
-    //connect(ui->pushButton_Search, SIGNAL(clicked()), this, SLOT(search()));
 }
 void MainWindow::recreateTable() {
     Manager *manager = new Manager();

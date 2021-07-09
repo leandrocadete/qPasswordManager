@@ -357,6 +357,7 @@ background-color: rgb(46, 52, 54)</string>
     <addaction name="actionAbout"/>
     <addaction name="action_New"/>
     <addaction name="actionExit"/>
+    <addaction name="action_Current_key"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
@@ -387,6 +388,11 @@ background-color: rgb(46, 52, 54)</string>
   <action name="actionExit">
    <property name="text">
     <string>E&amp;xit</string>
+   </property>
+  </action>
+  <action name="action_Current_key">
+   <property name="text">
+    <string>&amp;Current key</string>
    </property>
   </action>
  </widget>

@@ -7,26 +7,35 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    auto args = QCoreApplication::arguments();
-    if (args.length() >2)
-        str_key = args[1].toStdString();
-    bool ok = str_key.size() > 0;
-    if(!ok)
-        str_key = QInputDialog::getText(this, tr("Key"),
-                                        tr("Default key to decript passwords (eg. mykey@#@#, #$%keysecret)"
-                                            "\nIf one incorrect key is set you wont see the correct password decription"
-                                            "\nPlease do not forget this key!"), QLineEdit::Password, "", &ok).toStdString();
-    if(!ok || str_key.size() == 0){
-        cout << str_key << endl;
-        exit(-1);
-    }
-    createTable();
+    init();
+
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExitTriggered()));
     connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(on_pushButton_Delete_clicked()));
+}
+void MainWindow::init() {
+    bool ok = false;
+    string tmpKey = QInputDialog::getText(this, tr("Key"),
+        tr("Default key to decript passwords (eg. mykey@#@#, #$%keysecret)"
+            "\nIf one incorrect key is set you wont see the correct password decription"
+            "\nPlease do not forget this key!"), QLineEdit::Password, "", &ok).toStdString();
+    if(ok) {
+        str_key = tmpKey;
+    }
+
+    if(!ok || str_key.size() == 0){
+        exit(-1);
+    }
+    if(!flagInit) {
+        createTable();
+        flagInit = true;
+    } else {
+        recreateTable();
+    }
 }
 MainWindow::~MainWindow() {
     delete ui;
 }
+
 void MainWindow::createTable() {
     qtable = new QTableWidget(100, 4, ui->gridLayoutWidget);
     qtable->setHorizontalHeaderItem(0, new QTableWidgetItem(QString("ID")));
@@ -64,6 +73,8 @@ void MainWindow::createTable() {
     connect(qtable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEdit()));
 }
 void MainWindow::recreateTable() {
+    int scrollValue = qtable->verticalScrollBar()->value();
+
     Manager *manager = new Manager();
     str_pwd = manager->list(str_key, "pwd.db");
     for (int i = 0; i < 100; ++i) {
@@ -73,9 +84,19 @@ void MainWindow::recreateTable() {
         }
     }
     search();
-    qtable->setMinimumSize(250, 50);
-    qtable->resize(750, 200);
-    qtable->resizeColumnsToContents();
+    int countColumn = qtable->columnCount();
+    int table_with = 0;
+    for(int i = 0; i < countColumn; i++) {
+        table_with += qtable->columnWidth(i);
+    }
+    int wGrid = table_with;
+    int dGT = ui->horizontalLayoutWidget->width() - wGrid;
+
+    int widthforColumn = dGT / 4;
+    for(int i = 0; i < 4; i++) {
+        qtable->setColumnWidth(i, qtable->columnWidth(i) + widthforColumn);
+    }
+    qtable->verticalScrollBar()->setValue(scrollValue);
     qtable->setSelectionMode(QAbstractItemView::SingleSelection);
     qtable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->gridLayoutWidget->update();
@@ -376,4 +397,7 @@ void MainWindow::on_pushButton_Delete_clicked(){
             setMode(SEARCH);
         }
     }
+}
+void MainWindow::on_action_Current_key_triggered() {
+    init();
 }

@@ -22,7 +22,7 @@ void MainWindow::init() {
         str_key = tmpKey;
     }
 
-    if(!ok || str_key.size() == 0){
+    if(!ok && str_key.size() == 0){
         exit(-1);
     }
     if(!flagInit) {

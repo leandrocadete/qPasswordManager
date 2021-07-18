@@ -28,13 +28,15 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     Encrypt.cpp \
-    manager.cpp
+    manager.cpp \
+    configuration.cpp
 
 HEADERS += \
     mainwindow.h \
     Encrypt.h \
     manager.h \
-    split.h
+    split.h \
+    configuration.h
 
 FORMS += \
         mainwindow.ui

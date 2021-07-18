@@ -6,11 +6,13 @@
 #include <QTableWidget>
 #include <QInputDialog>
 #include <QScrollBar>
+#include <QSettings>
 #include "manager.h"
+#include "configuration.h"
 
 using namespace std;
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -37,15 +39,16 @@ private slots:
     void onActionExitTriggered();
     void on_action_New_triggered();
 
-
     void on_action_Current_key_triggered();
-
 private:
     string str_key; // Default Key to decript the passwords
     QTableWidget *qtable;
     Ui::MainWindow *ui;
     string** str_pwd; // pwds
     bool flagInit = false;
+    //QSettings *settings;
+    string strPwdFile;
+    Configuration *config;
 
     const QString lineEditEnabled = "color: rgb(238, 238, 236); background-color: rgb(46, 52, 54)"; // Enaled
     const QString disabled = "color: rgb(238, 238, 236); background-color: rgb(85, 87, 83)"; // Disabled
@@ -64,6 +67,8 @@ private:
     short searchLastIndex();
     void enableToInsertNew();
     void init();
+    void saveConfig();
+    void readConfig();
     //void new_password();
 };
 #endif // MAINWINDOW_H

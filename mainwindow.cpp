@@ -7,12 +7,15 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    readConfig();
+    strPwdFile = config->getFileName().toStdString();
     init();
-
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExitTriggered()));
     connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(on_pushButton_Delete_clicked()));
 }
 void MainWindow::init() {
+    //readConfig();
+
     bool ok = false;
     string tmpKey = QInputDialog::getText(this, tr("Key"),
         tr("Default key to decript passwords (eg. mykey@#@#, #$%keysecret)"
@@ -35,7 +38,6 @@ void MainWindow::init() {
 MainWindow::~MainWindow() {
     delete ui;
 }
-
 void MainWindow::createTable() {
     qtable = new QTableWidget(100, 4, ui->gridLayoutWidget);
     qtable->setHorizontalHeaderItem(0, new QTableWidgetItem(QString("ID")));
@@ -46,7 +48,8 @@ void MainWindow::createTable() {
     qtable->setMinimumSize(ui->gridLayoutWidget->size().width(), ui->gridLayoutWidget->size().height());
     Manager *manager = new Manager();
 
-    str_pwd = manager->list(str_key, "pwd.db");
+
+    str_pwd = manager->list(str_key, strPwdFile);
     for (int i = 0; i < 100; ++i) {
         for (int j = 0; j < 4; j++) {
             QTableWidgetItem * newItem = new QTableWidgetItem(QString(str_pwd[i][j].c_str()));
@@ -222,7 +225,6 @@ string** MainWindow::search(string str, int* countResult) {
     *countResult = j;
     return strs;
 }
-
 void MainWindow::on_pushButton_cancel_clicked() {
     setMode(SEARCH);
 }
@@ -401,3 +403,12 @@ void MainWindow::on_pushButton_Delete_clicked(){
 void MainWindow::on_action_Current_key_triggered() {
     init();
 }
+void MainWindow::saveConfig() {
+    // TODO
+    //settings->setValue("pwd-file", "pwd.db");
+}
+void MainWindow::readConfig() {
+    config = new Configuration();
+    config->readConfig();
+}
+

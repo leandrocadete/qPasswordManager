@@ -29,17 +29,20 @@ SOURCES += \
     mainwindow.cpp \
     Encrypt.cpp \
     manager.cpp \
-    configuration.cpp
+    configuration.cpp \
+    configdialog.cpp
 
 HEADERS += \
     mainwindow.h \
     Encrypt.h \
     manager.h \
     split.h \
-    configuration.h
+    configuration.h \
+    configdialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    configdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

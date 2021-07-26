@@ -359,7 +359,14 @@ background-color: rgb(46, 52, 54)</string>
     <addaction name="actionExit"/>
     <addaction name="action_Current_key"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionConfiguration"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -393,6 +400,11 @@ background-color: rgb(46, 52, 54)</string>
   <action name="action_Current_key">
    <property name="text">
     <string>&amp;Current key</string>
+   </property>
+  </action>
+  <action name="actionConfiguration">
+   <property name="text">
+    <string>Configuration</string>
    </property>
   </action>
  </widget>

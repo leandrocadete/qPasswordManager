@@ -17,15 +17,16 @@ class Manager
 {
 private:
     vector<Pwd> vec;
-    bool createFile(string fname, int c = 0);
+    bool createFile(int c = 0);
     bool readAll();
+    string fileName;
 
 public:
-    Manager();
-    Manager(int c);
-    bool writePwd(Pwd pwd, string fname, string key);
-    void readPwdOne(int id, string fname, string key);
-    string** list(string key, string fname = "pwd.db");
+    Manager(string fname);
+    Manager(string fname, int c);
+    bool writePwd(Pwd pwd, string key);
+    void readPwdOne(int id, string key);
+    string** list(string key);
     ~Manager();
 };
 

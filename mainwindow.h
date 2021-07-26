@@ -9,6 +9,7 @@
 #include <QSettings>
 #include "manager.h"
 #include "configuration.h"
+#include "configdialog.h"
 
 using namespace std;
 namespace Ui {
@@ -40,6 +41,8 @@ private slots:
     void on_action_New_triggered();
 
     void on_action_Current_key_triggered();
+    void on_actionConfiguration_triggered();
+
 private:
     string str_key; // Default Key to decript the passwords
     QTableWidget *qtable;
@@ -49,6 +52,7 @@ private:
     //QSettings *settings;
     string strPwdFile;
     Configuration *config;
+    ConfigDialog *configDialog;
 
     const QString lineEditEnabled = "color: rgb(238, 238, 236); background-color: rgb(46, 52, 54)"; // Enaled
     const QString disabled = "color: rgb(238, 238, 236); background-color: rgb(85, 87, 83)"; // Disabled
@@ -67,8 +71,5 @@ private:
     short searchLastIndex();
     void enableToInsertNew();
     void init();
-    void saveConfig();
-    void readConfig();
-    //void new_password();
 };
 #endif // MAINWINDOW_H

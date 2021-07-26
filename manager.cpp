@@ -1,14 +1,16 @@
 #include "manager.h"
-Manager::Manager() {
-    createFile("pwd.db");
+Manager::Manager(string fname) {
+    this->fileName = fname;
+    createFile();
 }
-Manager::Manager(int c) {
-    createFile("pwd.db");
+Manager::Manager(string fname, int c) {
+    this->fileName = fname;
+    createFile();
 }
 Manager::~Manager() {
 }
-bool Manager::writePwd(Pwd pwd, string fname, string key){
-    FILE *file = fopen(fname.c_str(), "r+");
+bool Manager::writePwd(Pwd pwd, string key){
+    FILE *file = fopen(fileName.c_str(), "r+");
     Encrypt encrypt;
     encrypt.setKey(key.c_str());
     int length;
@@ -24,8 +26,8 @@ bool Manager::writePwd(Pwd pwd, string fname, string key){
     fclose(file);
     return true;
 }
-void Manager::readPwdOne(int id, string fname, string key){
-    FILE *file = fopen(fname.c_str(), "r");
+void Manager::readPwdOne(int id, string key){
+    FILE *file = fopen(fileName.c_str(), "r");
     Encrypt encrypt;
     encrypt.setKey(key.c_str());
     if(file == nullptr) {
@@ -44,9 +46,9 @@ void Manager::readPwdOne(int id, string fname, string key){
     cout << "-----------------------------------------------------" << endl;
     fclose(file);
 }
-bool Manager::createFile(string fname, int c){
+bool Manager::createFile(int c){
     Pwd *pwd;
-    FILE *file = fopen(fname.c_str(), "rb");
+    FILE *file = fopen(fileName.c_str(), "rb");
     if(file != nullptr){
         for (int i = 0; i < 100; i++) {
             pwd = new Pwd();
@@ -63,7 +65,7 @@ bool Manager::createFile(string fname, int c){
             cout << "End list" << endl;
         }
     } else if (file == nullptr) {
-        file = fopen(fname.c_str(), "wb");
+        file = fopen(fileName.c_str(), "wb");
         if(file != nullptr) {
             for (int i = 0; i < 100; i++) {
                 pwd = new Pwd();
@@ -79,12 +81,12 @@ bool Manager::createFile(string fname, int c){
     fclose(file);
     return true;
 }
-string** Manager::list(string key, string fname) {
+string** Manager::list(string key) {
     string **strs = new string*[100]; // [100][4]
     for(int i = 0; i < 100; i++) {
         strs[i] = new string[4];
     }
-    FILE *file = fopen(fname.c_str(), "r");
+    FILE *file = fopen(fileName.c_str(), "r");
     Encrypt encrypt;
     encrypt.setKey(key.c_str());
     if(file == nullptr) {

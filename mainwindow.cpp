@@ -7,14 +7,15 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    readConfig();
-    strPwdFile = config->getFileName().toStdString();
+
     init();
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExitTriggered()));
     connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(on_pushButton_Delete_clicked()));
 }
 void MainWindow::init() {
-    //readConfig();
+    config = new Configuration();
+    config->readConfig();
+    strPwdFile = config->getFileName().toStdString();
 
     bool ok = false;
     string tmpKey = QInputDialog::getText(this, tr("Key"),
@@ -46,10 +47,10 @@ void MainWindow::createTable() {
     qtable->setHorizontalHeaderItem(3, new QTableWidgetItem(QString("pwd")));
 
     qtable->setMinimumSize(ui->gridLayoutWidget->size().width(), ui->gridLayoutWidget->size().height());
-    Manager *manager = new Manager();
+    Manager *manager = new Manager(config->getFileName().toStdString());
 
 
-    str_pwd = manager->list(str_key, strPwdFile);
+    str_pwd = manager->list(str_key);
     for (int i = 0; i < 100; ++i) {
         for (int j = 0; j < 4; j++) {
             QTableWidgetItem * newItem = new QTableWidgetItem(QString(str_pwd[i][j].c_str()));
@@ -78,8 +79,8 @@ void MainWindow::createTable() {
 void MainWindow::recreateTable() {
     int scrollValue = qtable->verticalScrollBar()->value();
 
-    Manager *manager = new Manager();
-    str_pwd = manager->list(str_key, "pwd.db");
+    Manager *manager = new Manager(config->getFileName().toStdString());
+    str_pwd = manager->list(str_key);
     for (int i = 0; i < 100; ++i) {
         for (int j = 0; j < 4; j++) {
             QTableWidgetItem * newItem = new QTableWidgetItem(QString(str_pwd[i][j].c_str()));
@@ -127,8 +128,8 @@ void MainWindow::on_pushButton_Update_clicked() {
     pwd->id = id.toInt(nullptr, 10);
     strcpy(pwd->description, description.toStdString().c_str());
     strcpy(pwd->pwd, password.toStdString().c_str());
-    Manager *manager = new Manager();
-    manager->writePwd(*pwd, "pwd.db", key.toStdString());
+    Manager *manager = new Manager(config->getFileName().toStdString());
+    manager->writePwd(*pwd, key.toStdString());
     for (int i = 0, length = qtable->rowCount(); i < length; i++) {
         if(qtable->item(i, 0)->text() == id) {
             break;
@@ -190,8 +191,8 @@ void MainWindow::on_pushButton_save_clicked() {
     pwd->id = id.toInt(nullptr, 10);
     strcpy(pwd->description, description.toStdString().c_str());
     strcpy(pwd->pwd, password.toStdString().c_str());
-    Manager *manager = new Manager();
-    manager->writePwd(*pwd, "pwd.db", key.toStdString());
+    Manager *manager = new Manager(config->getFileName().toStdString());
+    manager->writePwd(*pwd, key.toStdString());
     string str_id = std::to_string(pwd->id);
     qtable->setItem(pwd->id, 0, new  QTableWidgetItem(QString(str_id.c_str())));
     qtable->setItem(pwd->id, 1, new  QTableWidgetItem(QString(pwd->description)));
@@ -388,8 +389,8 @@ void MainWindow::on_pushButton_Delete_clicked(){
             pwd->id = idSelected.toInt(nullptr, 10);
             strcpy(pwd->description, "");
             strcpy(pwd->pwd, "");
-            Manager *manager = new Manager();
-            manager->writePwd(*pwd, "pwd.db", str_key);
+            Manager *manager = new Manager(config->getFileName().toStdString());
+            manager->writePwd(*pwd, str_key);
             for (int i = 0, length = qtable->rowCount(); i < length; i++) {
                 if(qtable->item(i, 0)->text() == idSelected) {
                     break;
@@ -403,12 +404,17 @@ void MainWindow::on_pushButton_Delete_clicked(){
 void MainWindow::on_action_Current_key_triggered() {
     init();
 }
-void MainWindow::saveConfig() {
-    // TODO
-    //settings->setValue("pwd-file", "pwd.db");
-}
-void MainWindow::readConfig() {
-    config = new Configuration();
-    config->readConfig();
-}
 
+void MainWindow::on_actionConfiguration_triggered(){
+    configDialog = new ConfigDialog(this);
+    configDialog->setModal(true);
+    configDialog->exec();
+    auto r = configDialog->result();
+    if(QDialog::Accepted == r) {
+        cout << "Accepted" << endl;
+        init();
+
+    } else {
+        cout << "Rejected" << endl;
+    }
+}

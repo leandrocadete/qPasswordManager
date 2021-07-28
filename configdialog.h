@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <iostream>
 #include "configuration.h"
+#include "databasefilemodel.h"
 
 namespace Ui {
     class ConfigDialog;
@@ -23,6 +24,7 @@ private slots:
 private:
     Ui::ConfigDialog *ui;
     Configuration *config;
+    databaseFileModel *dataBaseModel;
 };
 
 #endif // CONFIGDIALOG_H

@@ -6,6 +6,16 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Config
     config = new Configuration();
     config->readConfig();
     ui->lineEdit_FileName->setText(config->getFileName());
+
+
+
+    // TODO: https://doc.qt.io/qt-5/modelview.html
+
+    //dataBaseModel = new databaseFileModel(this);
+    //ui->listView->setModel(dataBaseModel);
+
+//    ui->listView->setModel()
+
 }
 ConfigDialog::~ConfigDialog(){
     delete ui;

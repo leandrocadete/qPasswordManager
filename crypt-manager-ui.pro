@@ -30,7 +30,8 @@ SOURCES += \
     Encrypt.cpp \
     manager.cpp \
     configuration.cpp \
-    configdialog.cpp
+    configdialog.cpp \
+    databasefilemodel.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -38,7 +39,8 @@ HEADERS += \
     manager.h \
     split.h \
     configuration.h \
-    configdialog.h
+    configdialog.h \
+    databasefilemodel.h
 
 FORMS += \
         mainwindow.ui \

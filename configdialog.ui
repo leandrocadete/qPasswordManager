@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
-    <height>275</height>
+    <width>678</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>240</y>
+     <x>360</x>
+     <y>310</y>
      <width>301</width>
      <height>32</height>
     </rect>
@@ -34,9 +34,13 @@
     <rect>
      <x>30</x>
      <y>50</y>
-     <width>113</width>
+     <width>251</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(238, 238, 236);
+background-color: rgb(46, 52, 54)</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -44,12 +48,22 @@
     <rect>
      <x>30</x>
      <y>30</y>
-     <width>81</width>
+     <width>251</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
-    <string>File Name</string>
+    <string>Data Base File Name</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>140</y>
+     <width>471</width>
+     <height>141</height>
+    </rect>
    </property>
   </widget>
  </widget>

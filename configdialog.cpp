@@ -7,15 +7,8 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Config
     config->readConfig();
     ui->lineEdit_FileName->setText(config->getFileName());
 
-
-
     // TODO: https://doc.qt.io/qt-5/modelview.html
-
-    //dataBaseModel = new databaseFileModel(this);
-    //ui->listView->setModel(dataBaseModel);
-
-//    ui->listView->setModel()
-
+    listDbFiles();
 }
 ConfigDialog::~ConfigDialog(){
     delete ui;
@@ -26,4 +19,17 @@ void ConfigDialog::on_lineEdit_textChanged(const QString &arg1) {
 void ConfigDialog::on_buttonBox_accepted() {
     config->setFileName(ui->lineEdit_FileName->text());
     config->saveConfig();
+}
+void ConfigDialog::listDbFiles() {
+    model = new QStringListModel(this);
+
+    QDir qd(QString(""));
+    QStringList mList;
+    QFileInfoList list = qd.entryInfoList(QStringList("*.db"));
+    for(int i = 0; i < list.size(); i++) {
+        mList << list[i].fileName();
+    }
+    model->setStringList(mList);
+    ui->listView->setModel(model);
+
 }

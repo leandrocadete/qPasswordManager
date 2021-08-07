@@ -43,6 +43,8 @@ private slots:
     void on_action_Current_key_triggered();
     void on_actionConfiguration_triggered();
 
+
+
 private:
     string str_key; // Default Key to decript the passwords
     QTableWidget *qtable;

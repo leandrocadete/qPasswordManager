@@ -59,8 +59,8 @@ background-color: rgb(46, 52, 54)</string>
   <widget class="QListView" name="listView">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>140</y>
+     <x>30</x>
+     <y>90</y>
      <width>471</width>
      <height>141</height>
     </rect>

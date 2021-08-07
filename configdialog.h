@@ -5,7 +5,10 @@
 #include <iostream>
 #include "configuration.h"
 #include "databasefilemodel.h"
-
+#include <QStringListModel>
+#include <QFile>
+#include <QDir>
+#include <QStringList>
 namespace Ui {
     class ConfigDialog;
 }
@@ -25,6 +28,9 @@ private:
     Ui::ConfigDialog *ui;
     Configuration *config;
     databaseFileModel *dataBaseModel;
+    QStringListModel *model;
+
+    void listDbFiles();
 };
 
 #endif // CONFIGDIALOG_H

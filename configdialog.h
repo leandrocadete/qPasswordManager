@@ -6,9 +6,11 @@
 #include "configuration.h"
 #include "databasefilemodel.h"
 #include <QStringListModel>
+#include <QAbstractListModel>
 #include <QFile>
 #include <QDir>
 #include <QStringList>
+#include <QMessageBox>
 namespace Ui {
     class ConfigDialog;
 }
@@ -31,6 +33,7 @@ private:
     QStringListModel *model;
 
     void listDbFiles();
+    void itemClicked(const QModelIndex &index);
 };
 
 #endif // CONFIGDIALOG_H

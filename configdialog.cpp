@@ -31,5 +31,12 @@ void ConfigDialog::listDbFiles() {
     }
     model->setStringList(mList);
     ui->listView->setModel(model);
+    connect(ui->listView, &QListView::clicked, this, &ConfigDialog::itemClicked);
+}
 
+void ConfigDialog::itemClicked(const QModelIndex &index) {
+    QVariant v_str = model->data(index, Qt::DisplayRole);
+    v_str.convert(QVariant::String);
+    QString f_str = v_str.toString();
+    ui->lineEdit_FileName->setText(f_str);
 }

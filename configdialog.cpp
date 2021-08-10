@@ -8,6 +8,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Config
     ui->lineEdit_FileName->setText(config->getFileName());
 
     // TODO: https://doc.qt.io/qt-5/modelview.html
+    connect(ui->pushButtonAdd, SIGNAL(clicked()), this, SLOT(addItem()));
     listDbFiles();
 }
 ConfigDialog::~ConfigDialog(){
@@ -40,3 +41,11 @@ void ConfigDialog::itemClicked(const QModelIndex &index) {
     QString f_str = v_str.toString();
     ui->lineEdit_FileName->setText(f_str);
 }
+void ConfigDialog::addItem(){
+    model->insertRow(model->rowCount());
+    QModelIndex mi = model->index(model->rowCount() -1, 0);
+    model->setData(mi, QVariant("fileName.db"));
+    ui->listView->setCurrentIndex(mi);
+    ui->listView->edit(mi);
+}
+

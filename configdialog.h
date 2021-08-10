@@ -25,6 +25,8 @@ public:
 private slots:
     void on_lineEdit_textChanged(const QString &arg1);
     void on_buttonBox_accepted();
+    void addItem();
+    void itemClicked(const QModelIndex &index);
 
 private:
     Ui::ConfigDialog *ui;
@@ -33,7 +35,6 @@ private:
     QStringListModel *model;
 
     void listDbFiles();
-    void itemClicked(const QModelIndex &index);
 };
 
 #endif // CONFIGDIALOG_H

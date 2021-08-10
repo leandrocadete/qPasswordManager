@@ -361,7 +361,7 @@ background-color: rgb(46, 52, 54)</string>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>Settings</string>
+     <string>Se&amp;ttings</string>
     </property>
     <addaction name="actionConfiguration"/>
    </widget>

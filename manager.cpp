@@ -7,7 +7,7 @@ Manager::Manager(string fname, int c) {
     this->fileName = fname;
     createFile();
 }
-Manager::~Manager() {
+Manager::~Manager() {    
 }
 bool Manager::writePwd(Pwd pwd, string key){
     FILE *file = fopen(fileName.c_str(), "r+");
@@ -67,18 +67,36 @@ bool Manager::createFile(int c){
     } else if (file == nullptr) {
         file = fopen(fileName.c_str(), "wb");
         if(file != nullptr) {
+            pwd = new Pwd();
             for (int i = 0; i < 100; i++) {
-                pwd = new Pwd();
                 pwd->id = i;
                 strcpy(pwd->description, ""); // empty
                 fwrite(pwd, sizeof (Pwd), 1, file);
             }
+            delete pwd;
         } else {
             cerr << "Error to create file" << endl;
             return false;
         }
     }
     fclose(file);
+    return true;
+}
+bool Manager::createEmptyFile(string fname) {
+    FILE * file = fopen(fname.c_str(), "wb");
+    if(file != nullptr) {
+        Pwd *pwd = new Pwd();
+        for (int i = 0; i < 100; i++) {
+            pwd->id = i;
+            strcpy(pwd->description, "");
+            fwrite(pwd, sizeof (Pwd), 1, file);
+        }
+        delete pwd;
+        fclose(file);
+    } else {
+        cerr << "Error to create file" << endl;
+        return false;
+    }
     return true;
 }
 string** Manager::list(string key) {

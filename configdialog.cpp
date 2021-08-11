@@ -18,6 +18,18 @@ void ConfigDialog::on_lineEdit_textChanged(const QString &arg1) {
     std::cout << arg1.toStdString() << std::endl;
 }
 void ConfigDialog::on_buttonBox_accepted() {
+
+
+    for(int i = 0; i < model->rowCount(); i++) {
+        //qlst << model->data(model->index(i)).toString();
+        QString qstr = model->data(model->index(i)).toString();
+        if(!QFileInfo::exists(qstr)) {
+            // create a file
+            Manager::createEmptyFile(qstr.toStdString());
+            cout << "File created: " << qstr.toStdString() << endl;
+        }
+    }
+
     config->setFileName(ui->lineEdit_FileName->text());
     config->saveConfig();
 }
@@ -32,7 +44,7 @@ void ConfigDialog::listDbFiles() {
     }
     model->setStringList(mList);
     ui->listView->setModel(model);
-    connect(ui->listView, &QListView::clicked, this, &ConfigDialog::itemClicked);
+    connect(ui->listView, &QListView::clicked, this, &ConfigDialog::itemClicked);    
 }
 
 void ConfigDialog::itemClicked(const QModelIndex &index) {
@@ -47,5 +59,27 @@ void ConfigDialog::addItem(){
     model->setData(mi, QVariant("fileName.db"));
     ui->listView->setCurrentIndex(mi);
     ui->listView->edit(mi);
+    if(!this->windowTitle().startsWith("*")) {
+        this->setWindowTitle(this->windowTitle().prepend("* "));
+    }
 }
 
+
+void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button) {
+
+    //QStringList qlst;
+    if(button->text().contains("Save")) {
+//        cout << "Will reject" << endl;
+
+//        this->reject();
+//        for(int i = 0; i < model->rowCount(); i++) {
+//            //qlst << model->data(model->index(i)).toString();
+//            QString qstr = model->data(model->index(i)).toString();
+//            if(!QFileInfo::exists(qstr)) {
+//                // create a file
+//                Manager::createEmptyFile(qstr.toStdString());
+//                cout << "File created: " << qstr.toStdString() << endl;
+//            }
+//        }
+    }
+}

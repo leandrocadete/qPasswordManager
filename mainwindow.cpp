@@ -18,7 +18,8 @@ void MainWindow::init() {
     strPwdFile = config->getFileName().toStdString();
 
     bool ok = false;
-    string tmpKey = QInputDialog::getText(this, tr("Key"),
+    string title = "Key for file: " + strPwdFile;
+    string tmpKey = QInputDialog::getText(this, title.c_str(),
         tr("Default key to decript passwords (eg. mykey@#@#, #$%keysecret)"
             "\nIf one incorrect key is set you wont see the correct password decription"
             "\nPlease do not forget this key!"), QLineEdit::Password, "", &ok).toStdString();

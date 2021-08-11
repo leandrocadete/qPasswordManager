@@ -11,6 +11,8 @@
 #include <QDir>
 #include <QStringList>
 #include <QMessageBox>
+#include "manager.h"
+
 namespace Ui {
     class ConfigDialog;
 }
@@ -27,6 +29,8 @@ private slots:
     void on_buttonBox_accepted();
     void addItem();
     void itemClicked(const QModelIndex &index);
+
+    void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
     Ui::ConfigDialog *ui;

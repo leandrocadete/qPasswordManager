@@ -6,6 +6,9 @@
 #include <cstdio>
 #include <vector>
 using namespace std;
+
+
+
 typedef struct Pwd {
     int id;
     char description[64];
@@ -13,8 +16,7 @@ typedef struct Pwd {
     int size_pwd;
 } stPwd;
 
-class Manager
-{
+class Manager {
 private:
     vector<Pwd> vec;
     bool createFile(int c = 0);
@@ -24,10 +26,12 @@ private:
 public:
     Manager(string fname);
     Manager(string fname, int c);
+    ~Manager();
     bool writePwd(Pwd pwd, string key);
     void readPwdOne(int id, string key);
     string** list(string key);
-    ~Manager();
+    static bool createEmptyFile(string fname);
 };
+
 
 #endif // MANAGER_H

@@ -404,7 +404,7 @@ background-color: rgb(46, 52, 54)</string>
   </action>
   <action name="actionConfiguration">
    <property name="text">
-    <string>Configuration</string>
+    <string>Confi&amp;guration</string>
    </property>
   </action>
  </widget>

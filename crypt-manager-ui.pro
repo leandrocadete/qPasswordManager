@@ -31,7 +31,8 @@ SOURCES += \
     manager.cpp \
     configuration.cpp \
     configdialog.cpp \
-    databasefilemodel.cpp
+    databasefilemodel.cpp \
+    customqlistview.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -40,7 +41,8 @@ HEADERS += \
     split.h \
     configuration.h \
     configdialog.h \
-    databasefilemodel.h
+    databasefilemodel.h \
+    customqlistview.h
 
 FORMS += \
         mainwindow.ui \

@@ -11,7 +11,9 @@
 #include <QDir>
 #include <QStringList>
 #include <QMessageBox>
+#include <QListView>
 #include "manager.h"
+#include "customqlistview.h"
 
 namespace Ui {
     class ConfigDialog;
@@ -25,17 +27,17 @@ public:
     ~ConfigDialog();
 
 private slots:
-    void on_lineEdit_textChanged(const QString &arg1);
     void on_buttonBox_accepted();
     void addItem();
     void itemClicked(const QModelIndex &index);
-
+    void itemClicked(int n);
     void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
     Ui::ConfigDialog *ui;
     Configuration *config;
     databaseFileModel *dataBaseModel;
+    QListView *listView;
     QStringListModel *model;
 
     void listDbFiles();

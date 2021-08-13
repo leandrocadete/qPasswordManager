@@ -74,6 +74,8 @@ void MainWindow::createTable() {
     qtable->setSelectionMode(QAbstractItemView::SingleSelection);
     qtable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->gridLayoutWidget->update();
+
+
     connect(qtable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(enableEdit(QTableWidgetItem*)));
     connect(qtable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEdit()));
 }

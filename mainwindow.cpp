@@ -1,13 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "QMessageBox"
-#include <fstream>
-#include "Encrypt.h"
-#include "manager.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-
     init();
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExitTriggered()));
     connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(on_pushButton_Delete_clicked()));
@@ -377,7 +372,7 @@ void MainWindow::enableToInsertNew() {
 }
 
 void MainWindow::on_pushButton_Delete_clicked(){
-    QMessageBox msg(QMessageBox::Warning, "Caution", "Are you sure, that you want to delete the selected item!",
+    QMessageBox msg(QMessageBox::Warning, "Caution", "Are you sure you want to delete the selected item!",
                    QMessageBox::Yes | QMessageBox::No, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     msg.exec();
     msg.show();

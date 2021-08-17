@@ -7,9 +7,18 @@
 #include <QInputDialog>
 #include <QScrollBar>
 #include <QSettings>
+#include <fstream>
+#include "QMessageBox"
+#include "Encrypt.h"
+#include "manager.h"
+
+#include <cstring>
+#include <string>
+
 #include "manager.h"
 #include "configuration.h"
 #include "configdialog.h"
+
 
 using namespace std;
 namespace Ui {

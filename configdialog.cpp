@@ -7,7 +7,6 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Config
     config->readConfig();
     ui->lineEdit_FileName->setText(config->getFileName());
 
-
     msgDelete = new QMessageBox(QMessageBox::Warning,
                     tr("Caution!"),
                     tr("Are you sure you want to delete the selected database file?"),
@@ -30,12 +29,10 @@ ConfigDialog::~ConfigDialog(){
 }
 void ConfigDialog::on_buttonBox_accepted() {
     for(int i = 0; i < model->rowCount(); i++) {
-        //qlst << model->data(model->index(i)).toString();
         QString qstr = model->data(model->index(i)).toString();
         if(!QFileInfo::exists(qstr)) {
             // create a file
             Manager::createEmptyFile(qstr.toStdString());
-            cout << "File created: " << qstr.toStdString() << endl;
         }
     }
     config->setFileName(ui->lineEdit_FileName->text());
@@ -57,7 +54,6 @@ void ConfigDialog::listDbFiles() {
 }
 void ConfigDialog::itemClicked(const QModelIndex &index) {
     QVariant v_str = model->data(index, Qt::DisplayRole);
-    //v_str.convert(QVariant::String);
     QString f_str = v_str.toString();
     ui->lineEdit_FileName->setText(f_str);
     if(!this->windowTitle().startsWith("*")) {
@@ -66,7 +62,6 @@ void ConfigDialog::itemClicked(const QModelIndex &index) {
     selectedIndex = index.row();
 }
 void ConfigDialog::itemClicked(int n) {
-    cout << "Clicked("<< n <<")" << endl;
     itemClicked(listView->model()->index(n, 0));
 }
 void ConfigDialog::addItem(){
@@ -77,10 +72,6 @@ void ConfigDialog::addItem(){
     listView->edit(mi);
     if(!this->windowTitle().startsWith("*")) {
         this->setWindowTitle(this->windowTitle().prepend("* "));
-    }
-}
-void ConfigDialog::on_buttonBox_clicked(QAbstractButton *button) {
-    if(button->text().contains("Save")) {
     }
 }
 

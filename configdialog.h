@@ -29,7 +29,6 @@ private slots:
     void addItem();
     void itemClicked(const QModelIndex &index);
     void itemClicked(int n);
-    void on_buttonBox_clicked(QAbstractButton *button);    
     void deleteItem();
 private:
     Ui::ConfigDialog *ui;

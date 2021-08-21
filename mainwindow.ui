@@ -351,6 +351,9 @@ background-color: rgb(46, 52, 54)</string>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(136, 138, 133);</string>
+    </property>
     <property name="title">
      <string>&amp;File</string>
     </property>
@@ -360,6 +363,9 @@ background-color: rgb(46, 52, 54)</string>
     <addaction name="action_Current_key"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(136, 138, 133);</string>
+    </property>
     <property name="title">
      <string>Se&amp;ttings</string>
     </property>

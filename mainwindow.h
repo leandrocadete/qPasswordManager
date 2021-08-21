@@ -6,19 +6,12 @@
 #include <QTableWidget>
 #include <QInputDialog>
 #include <QScrollBar>
-#include <QSettings>
-#include <fstream>
 #include "QMessageBox"
 #include "Encrypt.h"
 #include "manager.h"
-
-#include <cstring>
-#include <string>
-
 #include "manager.h"
 #include "configuration.h"
 #include "configdialog.h"
-
 
 using namespace std;
 namespace Ui {
@@ -42,7 +35,6 @@ private slots:
 
     void enableEdit(QTableWidgetItem*);
     void enableEdit();
-    void showMsg();
     void search();
     string** search(string str, int* countResult);
     void on_actionAbout_triggered();
@@ -52,15 +44,12 @@ private slots:
     void on_action_Current_key_triggered();
     void on_actionConfiguration_triggered();
 
-
-
 private:
     string str_key; // Default Key to decript the passwords
     QTableWidget *qtable;
     Ui::MainWindow *ui;
     string** str_pwd; // pwds
     bool flagInit = false;
-    //QSettings *settings;
     string strPwdFile;
     Configuration *config;
     ConfigDialog *configDialog;

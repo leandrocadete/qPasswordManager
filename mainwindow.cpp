@@ -21,7 +21,6 @@ void MainWindow::init() {
     if(ok) {
         str_key = tmpKey;
     }
-
     if(!ok && str_key.size() == 0){
         exit(-1);
     }
@@ -44,7 +43,6 @@ void MainWindow::createTable() {
 
     qtable->setMinimumSize(ui->gridLayoutWidget->size().width(), ui->gridLayoutWidget->size().height());
     Manager *manager = new Manager(config->getFileName().toStdString());
-
 
     str_pwd = manager->list(str_key);
     for (int i = 0; i < 100; ++i) {
@@ -200,12 +198,7 @@ void MainWindow::on_pushButton_save_clicked() {
     recreateTable();
     setMode(SEARCH);
 }
-void MainWindow::showMsg() {
-    QMessageBox msg(QString("Title"), QString("Body message"),
-                    QMessageBox::Warning, QMessageBox::Cancel, QMessageBox::Ok, QMessageBox::No,
-                    this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
-    msg.show();
-}
+
 string** MainWindow::search(string str, int* countResult) {
     string** strs = new string*[100];
     bool flag1 = false, flag2 = false;
@@ -411,7 +404,6 @@ void MainWindow::on_actionConfiguration_triggered(){
     if(QDialog::Accepted == r) {
         cout << "Accepted" << endl;
         init();
-
     } else {
         cout << "Rejected" << endl;
     }

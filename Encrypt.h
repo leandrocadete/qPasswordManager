@@ -10,8 +10,8 @@ using namespace std;
 class Encrypt{
 private:
     char *key;
-    char rotational(char c, int coef);
-    char unrotational(char c, int coef);
+    char rotate(char c, int coef);
+    char unrotate(char c, int coef);
     int sumString(char *c, int length);
 public:
     Encrypt();

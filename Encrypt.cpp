@@ -5,7 +5,7 @@
 /**
 * Rotation of characters between 32 to 127
 * */
-char Encrypt::rotational(char c, int coef){
+char Encrypt::rotate(char c, int coef){
    int xc = (int)c;
    int x = xc + coef;
    while(x > 126) {
@@ -16,7 +16,7 @@ char Encrypt::rotational(char c, int coef){
 /**
  * Unrotation of characters between 127 to 32
  * */
-char Encrypt::unrotational(char c, int coef){
+char Encrypt::unrotate(char c, int coef){
     int xc = (int)c;
     int x = xc - coef;
     while(x < 32) {
@@ -51,7 +51,7 @@ char* Encrypt::encrypt(const char *c, int *length) {
     char *vet = new char[*length + 1];
     for (int i = 0; i < *length; i++) {
         val = pow(key_size + i, 2);
-        vet[i] = rotational(c[i],  val);
+        vet[i] = rotate(c[i],  val);
     }
     vet[*length] = '\0';
     return vet;
@@ -66,7 +66,7 @@ char* Encrypt::decrypt(const char *c, int length) {
     char *vetdec = new char[length +1];
     for (int i = 0; i < length; i++) {
         val = pow(key_size + i, 2);
-        vetdec[i] = unrotational(c[i], val);
+        vetdec[i] = unrotate(c[i], val);
     }
     //cout << "decrypt: " << vetdec << endl;
     vetdec[length] = '\0';

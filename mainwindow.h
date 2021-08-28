@@ -33,8 +33,8 @@ private slots:
     void on_pushButton_cancel_clicked();
     void on_pushButton_Delete_clicked();
 
-    void enableEdit(QTableWidgetItem*);
-    void enableEdit();
+    void widgetItemClicked(QTableWidgetItem*);
+    void widgetItemClicked();
     void search();
     string** search(string str, int* countResult);
     void on_actionAbout_triggered();
@@ -55,21 +55,24 @@ private:
     Configuration *config;
     ConfigDialog *configDialog;
 
-    const QString lineEditEnabled = "color: rgb(238, 238, 236); background-color: rgb(46, 52, 54)"; // Enaled
-    const QString disabled = "color: rgb(238, 238, 236); background-color: rgb(85, 87, 83)"; // Disabled
-    const QString btnGreenEnabled = "background-color: green"; // enabled green
-    const QString btnDisabled = ""; // Disabled green
-    const QString btnYellowEnabled = "background-color: yellow"; // enabled yellow
-    const QString btnRedEnabled = "background-color: red";
-    const QString btnEditarEnbled = "background-color: rgb(206, 92, 0)";
-    const QString btnBlueEnabled = "background-color: blue"; // enabled blue
-    const QString btnLightBlueEnabled = "background-color: rgb(154, 209, 255)"; // light blue
+    const QString styleLineEditEnabled = "color: rgb(238, 238, 236); background-color: rgb(46, 52, 54)"; // Enaled
+    const QString styleDisabled = "color: rgb(238, 238, 236); background-color: rgb(85, 87, 83)"; // Disabled
+    const QString styleBtnGreenEnabled = "background-color: green"; // enabled green
+    const QString styleBtnDisabled = "";
+    const QString styleBtnYellowEnabled = "background-color: yellow"; // enabled yellow
+    const QString styleBtnRedEnabled = "background-color: red";
+    const QString styleBtnEditarEnbled = "background-color: rgb(206, 92, 0)";
+    const QString sytleBtnBlueEnabled = "background-color: blue"; // enabled blue
+    const QString styleBtnLightBlueEnabled = "background-color: rgb(154, 209, 255)"; // light blue
 
-    static const short SEARCH = 0;
-    static const short INSERT_NEW = 1;
-    static const short EDIT = 2;
-
-    void setMode(short mode);
+    enum windowMode{
+        Search,
+        Select,
+        Insert,
+        Edit
+    };
+    void clearInputs();
+    void setMode(windowMode wMode);
     short searchLastIndex();
     void enableToInsertNew();
     void init();

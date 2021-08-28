@@ -69,8 +69,8 @@ void MainWindow::createTable() {
     ui->gridLayoutWidget->update();
 
 
-    connect(qtable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(enableEdit(QTableWidgetItem*)));
-    connect(qtable, SIGNAL(itemSelectionChanged()), this, SLOT(enableEdit()));
+    connect(qtable, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(widgetItemClicked(QTableWidgetItem*)));
+    connect(qtable, SIGNAL(itemSelectionChanged()), this, SLOT(widgetItemClicked()));
 }
 void MainWindow::recreateTable() {
     int scrollValue = qtable->verticalScrollBar()->value();
@@ -101,11 +101,23 @@ void MainWindow::recreateTable() {
     qtable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->gridLayoutWidget->update();
 }
-void MainWindow::enableEdit(QTableWidgetItem* item) {
-    enableEdit();
+void MainWindow::widgetItemClicked(QTableWidgetItem* item) {
+    widgetItemClicked();
 }
-void MainWindow::enableEdit() {
-    setMode(EDIT);
+void MainWindow::widgetItemClicked() {
+    cout << "ediPassword:" <<  ui->editPassword->text().toStdString() << endl;
+    QString qstrV(ui->editKey->text());
+
+    if(qstrV != QString("")) {
+       clearInputs();
+    }
+    setMode(windowMode::Select);
+}
+void MainWindow::clearInputs() {
+    ui->spinBox->clear();
+    ui->editDescription->clear();
+    ui->editPassword->clear();
+    ui->editKey->clear();
 }
 void MainWindow::on_pushButton_Update_clicked() {
     auto id = ui->spinBox->text();
@@ -125,7 +137,7 @@ void MainWindow::on_pushButton_Update_clicked() {
         }
     }
     recreateTable();
-    setMode(SEARCH);
+    setMode(windowMode::Search);
 }
 void MainWindow::on_pushButton_Search_clicked() {
     search();
@@ -146,6 +158,8 @@ void MainWindow::search() {
         }
     }
     ui->gridLayoutWidget->update();
+    setMode(windowMode::Search);
+    ui->lineEdit_search->setFocus();
 }
 void MainWindow::on_pushButton_Editar_clicked() {
     auto itens = qtable->selectedItems();
@@ -160,7 +174,7 @@ void MainWindow::on_pushButton_Editar_clicked() {
         ui->editDescription->setText(description);
         ui->editPassword->setText(pwd);
         ui->editKey->setText(str_key.c_str());
-        setMode(EDIT);
+        setMode(windowMode::Edit);
     } else {
         QMessageBox *msg = new QMessageBox(this);
         msg->setText("There isn't any item selected on the table!");
@@ -189,7 +203,7 @@ void MainWindow::on_pushButton_save_clicked() {
     qtable->setItem(pwd->id, 3, new  QTableWidgetItem(QString(pwd->pwd)));
     // Teste createTable()
     recreateTable();
-    setMode(SEARCH);
+    setMode(windowMode::Search);
 }
 
 string** MainWindow::search(string str, int* countResult) {
@@ -211,10 +225,10 @@ string** MainWindow::search(string str, int* countResult) {
     return strs;
 }
 void MainWindow::on_pushButton_cancel_clicked() {
-    setMode(SEARCH);
+    setMode(windowMode::Search);
 }
 /// edit - search - new
-void MainWindow::setMode(short mode) {
+void MainWindow::setMode(windowMode mode) {
     QWidget *widget[] = {
         ui->pushButton_New,
         ui->pushButton_save,
@@ -230,71 +244,88 @@ void MainWindow::setMode(short mode) {
         ui->editDescription
     };
     switch (mode) {
-    case  SEARCH: // search mode
+    case  windowMode::Search: // search mode
         for(auto &e : widget) { // disable all controls
             e->setEnabled(false);
-            e->setStyleSheet(disabled);
+            e->setStyleSheet(styleDisabled);
         }
         // enable only some controls
         ui->lineEdit_search->setEnabled(true);
-        ui->lineEdit_search->setStyleSheet(lineEditEnabled);
+        ui->lineEdit_search->setStyleSheet(styleLineEditEnabled);
         ui->pushButton_Search->setEnabled(true);
-        ui->pushButton_Search->setStyleSheet(btnLightBlueEnabled);
+        ui->pushButton_Search->setStyleSheet(styleBtnLightBlueEnabled);
         ui->pushButton_New->setEnabled(true);
-        ui->pushButton_New->setStyleSheet(btnGreenEnabled);
+        ui->pushButton_New->setStyleSheet(styleBtnGreenEnabled);
         ui->pushButton_Editar->setEnabled(false);
 
         ui->action_New->setDisabled(false);
         ui->action_Delete->setDisabled(true);
 
-        ui->spinBox->clear();
-        ui->editDescription->clear();
-        ui->editPassword->clear();
-        ui->editKey->clear();
+        clearInputs();
+
         break;
-    case EDIT: // edit mode
+    case windowMode::Select:
+        for(auto &e : widget) { // disable all controls
+            e->setEnabled(false);
+            e->setStyleSheet(styleDisabled);
+        }
+        ui->pushButton_Editar->setEnabled(true);
+        ui->pushButton_Editar->setStyleSheet(styleBtnEditarEnbled);
+        ui->pushButton_Delete->setEnabled(true);
+        ui->pushButton_Delete->setStyleSheet(styleBtnRedEnabled);
+        ui->action_Delete->setEnabled(true);
+        ui->pushButton_Search->setEnabled(true);
+        ui->pushButton_Search->setStyleSheet(styleBtnLightBlueEnabled);
+        ui->pushButton_New->setEnabled(true);
+        ui->pushButton_New->setStyleSheet(styleBtnGreenEnabled);
+        ui->action_New->setEnabled(true);
+        ui->lineEdit_search->setEnabled(true);
+        ui->lineEdit_search->setStyleSheet(styleLineEditEnabled);
+
+        break;
+    case windowMode::Edit: // edit mode
         // Disable some controls
         ui->lineEdit_search->setEnabled(false);
-        ui->lineEdit_search->setStyleSheet(disabled);
+        ui->lineEdit_search->setStyleSheet(styleDisabled);
         ui->pushButton_Search->setEnabled(false);
-        ui->pushButton_Search->setStyleSheet(btnDisabled);
+        ui->pushButton_Search->setStyleSheet(styleBtnDisabled);
         ui->pushButton_New->setEnabled(false);
-        ui->pushButton_New->setStyleSheet(disabled);
+        ui->pushButton_New->setStyleSheet(styleDisabled);
         ui->action_New->setEnabled(false);
         ui->action_New->setDisabled(true);
         // enable some controls
         ui->pushButton_Editar->setEnabled(true);
-        ui->pushButton_Editar->setStyleSheet(btnEditarEnbled);
+        ui->pushButton_Editar->setStyleSheet(styleBtnEditarEnbled);
         ui->pushButton_Delete->setEnabled(true); // delete
-        ui->pushButton_Delete->setStyleSheet(btnRedEnabled); // delete
+        ui->pushButton_Delete->setStyleSheet(styleBtnRedEnabled); // delete
         ui->action_Delete->setEnabled(true); // delete
         ui->action_Delete->setDisabled(false); // delete
         ui->pushButton_cancel->setEnabled(false);
-        ui->pushButton_cancel->setStyleSheet(disabled);
+        ui->pushButton_cancel->setStyleSheet(styleDisabled);
         ui->pushButton_save->setEnabled(false);
-        ui->pushButton_save->setStyleSheet(disabled);
+        ui->pushButton_save->setStyleSheet(styleDisabled);
 
 
         ui->spinBox->setEnabled(true);
-        ui->spinBox->setStyleSheet(lineEditEnabled);
+        ui->spinBox->setStyleSheet(styleLineEditEnabled);
         ui->editDescription->setEnabled(true);
-        ui->editDescription->setStyleSheet(lineEditEnabled);
+        ui->editDescription->setStyleSheet(styleLineEditEnabled);
         ui->editPassword->setEnabled(true);
-        ui->editPassword->setStyleSheet(lineEditEnabled);
+        ui->editPassword->setStyleSheet(styleLineEditEnabled);
         ui->editKey->setEnabled(true);
-        ui->editKey->setStyleSheet(lineEditEnabled);
+        ui->editKey->setStyleSheet(styleLineEditEnabled);
         ui->pushButton_cancel->setEnabled(true);
-        ui->pushButton_cancel->setStyleSheet(btnYellowEnabled);
+        ui->pushButton_cancel->setStyleSheet(styleBtnYellowEnabled);
         ui->pushButton_Update->setEnabled(true);
-        ui->pushButton_Update->setStyleSheet(btnYellowEnabled);      
+        ui->pushButton_Update->setStyleSheet(styleBtnYellowEnabled);
         break;
-    case INSERT_NEW: // insert mode
+    case windowMode::Insert: // insert mode
         ui->pushButton_Delete->setEnabled(false); // delete
-        ui->pushButton_Delete->setStyleSheet(btnDisabled); // delete
+        ui->pushButton_Delete->setStyleSheet(styleBtnDisabled); // delete
         ui->pushButton_New->setEnabled(false);
-        ui->pushButton_New->setStyleSheet(btnDisabled);
+        ui->pushButton_New->setStyleSheet(styleBtnDisabled);
         ui->pushButton_Editar->setEnabled(false);
-        ui->pushButton_Editar->setStyleSheet(btnDisabled);
+        ui->pushButton_Editar->setStyleSheet(styleBtnDisabled);
         ui->action_New->setEnabled(false);
         ui->action_New->setDisabled(true);
         ui->action_Delete->setEnabled(false); // delete
@@ -302,17 +333,17 @@ void MainWindow::setMode(short mode) {
 
         // enable some controls
         ui->spinBox->setEnabled(true);
-        ui->spinBox->setStyleSheet(lineEditEnabled);
+        ui->spinBox->setStyleSheet(styleLineEditEnabled);
         ui->editDescription->setEnabled(true);
-        ui->editDescription->setStyleSheet(lineEditEnabled);
+        ui->editDescription->setStyleSheet(styleLineEditEnabled);
         ui->editPassword->setEnabled(true);
-        ui->editPassword->setStyleSheet(lineEditEnabled);
+        ui->editPassword->setStyleSheet(styleLineEditEnabled);
         ui->editKey->setEnabled(true);
-        ui->editKey->setStyleSheet(lineEditEnabled);
+        ui->editKey->setStyleSheet(styleLineEditEnabled);
         ui->pushButton_cancel->setEnabled(true);
-        ui->pushButton_cancel->setStyleSheet(btnYellowEnabled);
+        ui->pushButton_cancel->setStyleSheet(styleBtnYellowEnabled);
         ui->pushButton_save->setEnabled(true);
-        ui->pushButton_save->setStyleSheet(btnBlueEnabled);
+        ui->pushButton_save->setStyleSheet(sytleBtnBlueEnabled);
         break;
     default:
         cerr << "Invalid value for mode at MainWindow::setMode(short mode)";
@@ -336,10 +367,10 @@ short MainWindow::searchLastIndex() {
     }
     return 0;
 }
-
 void MainWindow::on_actionAbout_triggered() {
    QMessageBox::about(this, tr("About Pwd Manager"), QString("Pwd Manager is a software designed to store passwords"
-                                                             "\nDeveloped by Leandro Cadete da Silva"));
+                                                             "\nDeveloped by Leandro Cadete da Silva"
+                                                             "\nRepository: https://github.com/leandrocadete/qPasswordManager"));
 }
 void MainWindow::onActionExitTriggered() {
     QMessageBox msg(QMessageBox::Warning, "Caution", "Are you sure, that you want to close!",
@@ -352,11 +383,9 @@ void MainWindow::onActionExitTriggered() {
     }
     cout << QString(r).toStdString();
 }
-
 void MainWindow::on_action_New_triggered() {
     enableToInsertNew();
 }
-
 void MainWindow::enableToInsertNew() {
     ui->spinBox->clear();
     short lastIndex = searchLastIndex();
@@ -364,9 +393,8 @@ void MainWindow::enableToInsertNew() {
     ui->editDescription->clear();
     ui->editPassword->clear();
     ui->editKey->setText(str_key.c_str());
-    setMode(INSERT_NEW);
+    setMode(windowMode::Insert);
 }
-
 void MainWindow::on_pushButton_Delete_clicked(){
     QMessageBox msg(QMessageBox::Warning, "Caution", "Are you sure you want to delete the selected item!",
                    QMessageBox::Yes | QMessageBox::No, this, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
@@ -391,27 +419,22 @@ void MainWindow::on_pushButton_Delete_clicked(){
                 }
             }
             recreateTable();
-            setMode(SEARCH);
+            setMode(windowMode::Search);
         }
     }
 }
 void MainWindow::on_action_Delete_triggered() {
     on_pushButton_Delete_clicked();
 }
-
 void MainWindow::on_action_Current_key_triggered() {
     init();
 }
-
 void MainWindow::on_actionConfiguration_triggered(){
     configDialog = new ConfigDialog(this);
     configDialog->setModal(true);
     configDialog->exec();
     auto r = configDialog->result();
-    if(QDialog::Accepted == r) {
-        cout << "Accepted" << endl;
+    if(QDialog::Accepted == r) {        
         init();
-    } else {
-        cout << "Rejected" << endl;
     }
 }

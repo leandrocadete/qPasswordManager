@@ -357,8 +357,6 @@ background-color: rgb(46, 52, 54)</string>
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionAbout"/>
-    <addaction name="action_New"/>
     <addaction name="actionExit"/>
     <addaction name="action_Current_key"/>
    </widget>
@@ -371,8 +369,29 @@ background-color: rgb(46, 52, 54)</string>
     </property>
     <addaction name="actionConfiguration"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(136, 138, 133);</string>
+    </property>
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(136, 138, 133);</string>
+    </property>
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="action_New"/>
+    <addaction name="action_Delete"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuSettings"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -382,7 +401,19 @@ background-color: rgb(46, 52, 54)</string>
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(85, 87, 83);
+
+border: 1px solid rgb(46, 52, 54);</string>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
   <action name="actionEditar">
    <property name="text">
     <string>&amp;Editar</string>
@@ -411,6 +442,14 @@ background-color: rgb(46, 52, 54)</string>
   <action name="actionConfiguration">
    <property name="text">
     <string>Confi&amp;guration</string>
+   </property>
+  </action>
+  <action name="action_Delete">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Delete</string>
    </property>
   </action>
  </widget>

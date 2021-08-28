@@ -43,6 +43,7 @@ private slots:
 
     void on_action_Current_key_triggered();
     void on_actionConfiguration_triggered();
+    void on_action_Delete_triggered();
 
 private:
     string str_key; // Default Key to decript the passwords
@@ -60,6 +61,7 @@ private:
     const QString btnDisabled = ""; // Disabled green
     const QString btnYellowEnabled = "background-color: yellow"; // enabled yellow
     const QString btnRedEnabled = "background-color: red";
+    const QString btnEditarEnbled = "background-color: rgb(206, 92, 0)";
     const QString btnBlueEnabled = "background-color: blue"; // enabled blue
     const QString btnLightBlueEnabled = "background-color: rgb(154, 209, 255)"; // light blue
 

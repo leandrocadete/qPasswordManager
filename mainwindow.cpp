@@ -5,7 +5,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     init();
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExitTriggered()));
-    connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(on_pushButton_Delete_clicked()));
+    connect(ui->pushButton_Delete, SIGNAL(pressed()), this, SLOT(on_pushButton_Delete_clicked()));    
 }
 void MainWindow::init() {
     config = new Configuration();
@@ -105,14 +105,7 @@ void MainWindow::enableEdit(QTableWidgetItem* item) {
     enableEdit();
 }
 void MainWindow::enableEdit() {
-    ui->pushButton_Editar->setEnabled(true);
-    ui->pushButton_Editar->setStyleSheet("background-color: rgb(206, 92, 0)");
-    ui->pushButton_Delete->setEnabled(true);
-    ui->pushButton_Delete->setStyleSheet(btnRedEnabled);
-    ui->pushButton_cancel->setEnabled(false);
-    ui->pushButton_cancel->setStyleSheet("");
-    ui->pushButton_save->setEnabled(false);
-    ui->pushButton_save->setStyleSheet("");
+    setMode(EDIT);
 }
 void MainWindow::on_pushButton_Update_clicked() {
     auto id = ui->spinBox->text();
@@ -250,8 +243,9 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_New->setEnabled(true);
         ui->pushButton_New->setStyleSheet(btnGreenEnabled);
         ui->pushButton_Editar->setEnabled(false);
-        ui->action_New->setEnabled(true);
+
         ui->action_New->setDisabled(false);
+        ui->action_Delete->setDisabled(true);
 
         ui->spinBox->clear();
         ui->editDescription->clear();
@@ -266,15 +260,21 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_Search->setStyleSheet(btnDisabled);
         ui->pushButton_New->setEnabled(false);
         ui->pushButton_New->setStyleSheet(disabled);
-        ui->pushButton_Delete->setEnabled(false);
-        ui->pushButton_Delete->setStyleSheet(btnDisabled);
+        ui->action_New->setEnabled(false);
+        ui->action_New->setDisabled(true);
+        // enable some controls
+        ui->pushButton_Editar->setEnabled(true);
+        ui->pushButton_Editar->setStyleSheet(btnEditarEnbled);
+        ui->pushButton_Delete->setEnabled(true); // delete
+        ui->pushButton_Delete->setStyleSheet(btnRedEnabled); // delete
+        ui->action_Delete->setEnabled(true); // delete
+        ui->action_Delete->setDisabled(false); // delete
         ui->pushButton_cancel->setEnabled(false);
         ui->pushButton_cancel->setStyleSheet(disabled);
         ui->pushButton_save->setEnabled(false);
         ui->pushButton_save->setStyleSheet(disabled);
-        ui->action_New->setEnabled(false);
-        ui->action_New->setDisabled(true);
-        // enable some controls
+
+
         ui->spinBox->setEnabled(true);
         ui->spinBox->setStyleSheet(lineEditEnabled);
         ui->editDescription->setEnabled(true);
@@ -289,14 +289,17 @@ void MainWindow::setMode(short mode) {
         ui->pushButton_Update->setStyleSheet(btnYellowEnabled);      
         break;
     case INSERT_NEW: // insert mode
-        ui->pushButton_Delete->setEnabled(false);
-        ui->pushButton_Delete->setStyleSheet(btnDisabled);
+        ui->pushButton_Delete->setEnabled(false); // delete
+        ui->pushButton_Delete->setStyleSheet(btnDisabled); // delete
         ui->pushButton_New->setEnabled(false);
         ui->pushButton_New->setStyleSheet(btnDisabled);
         ui->pushButton_Editar->setEnabled(false);
         ui->pushButton_Editar->setStyleSheet(btnDisabled);
         ui->action_New->setEnabled(false);
         ui->action_New->setDisabled(true);
+        ui->action_Delete->setEnabled(false); // delete
+        ui->action_Delete->setDisabled(true); // delete
+
         // enable some controls
         ui->spinBox->setEnabled(true);
         ui->spinBox->setStyleSheet(lineEditEnabled);
@@ -392,6 +395,10 @@ void MainWindow::on_pushButton_Delete_clicked(){
         }
     }
 }
+void MainWindow::on_action_Delete_triggered() {
+    on_pushButton_Delete_clicked();
+}
+
 void MainWindow::on_action_Current_key_triggered() {
     init();
 }

@@ -105,9 +105,7 @@ void MainWindow::widgetItemClicked(QTableWidgetItem* item) {
     widgetItemClicked();
 }
 void MainWindow::widgetItemClicked() {
-    cout << "ediPassword:" <<  ui->editPassword->text().toStdString() << endl;
     QString qstrV(ui->editKey->text());
-
     if(qstrV != QString("")) {
        clearInputs();
     }

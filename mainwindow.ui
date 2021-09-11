@@ -205,7 +205,7 @@ background-color: rgb(85, 87, 83);</string>
      <string notr="true">background-color: rgb(154, 209, 255)</string>
     </property>
     <property name="text">
-     <string>S&amp;earch</string>
+     <string>Sea&amp;rch</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_Update">
@@ -243,7 +243,7 @@ background-color: rgb(85, 87, 83);</string>
      <string notr="true">/*background-color: rgb(206, 92, 0);*/</string>
     </property>
     <property name="text">
-     <string>&amp;Edit</string>
+     <string>Ed&amp;it</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_New">
@@ -256,7 +256,7 @@ background-color: rgb(85, 87, 83);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(78, 154, 6);</string>
+     <string notr="true">background-color: green</string>
     </property>
     <property name="text">
      <string>&amp;New</string>
@@ -319,7 +319,7 @@ background-color: rgb(46, 52, 54)</string>
      </rect>
     </property>
     <property name="text">
-     <string>Delete</string>
+     <string>&amp;Delete</string>
     </property>
    </widget>
    <zorder>gridLayoutWidget</zorder>
@@ -374,7 +374,7 @@ background-color: rgb(46, 52, 54)</string>
      <string notr="true">background-color: rgb(136, 138, 133);</string>
     </property>
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
@@ -383,7 +383,7 @@ background-color: rgb(46, 52, 54)</string>
      <string notr="true">background-color: rgb(136, 138, 133);</string>
     </property>
     <property name="title">
-     <string>Edit</string>
+     <string>&amp;Edit</string>
     </property>
     <addaction name="action_New"/>
     <addaction name="action_Delete"/>
@@ -426,7 +426,7 @@ border: 1px solid rgb(46, 52, 54);</string>
   </action>
   <action name="action_New">
    <property name="text">
-    <string>&amp;New</string>
+    <string>Ne&amp;w</string>
    </property>
   </action>
   <action name="actionExit">
@@ -436,7 +436,7 @@ border: 1px solid rgb(46, 52, 54);</string>
   </action>
   <action name="action_Current_key">
    <property name="text">
-    <string>&amp;Current key</string>
+    <string>Current &amp;key</string>
    </property>
   </action>
   <action name="actionConfiguration">
@@ -449,7 +449,7 @@ border: 1px solid rgb(46, 52, 54);</string>
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>&amp;Delete</string>
+    <string>De&amp;lete</string>
    </property>
   </action>
  </widget>
